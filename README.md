@@ -54,10 +54,12 @@ Meu nome é Iago Magalhães e estou criando este repositório para compartilhar,
     4. Siga as instruções do assistente de instalação para autorizar o instalador e prosseguir com a instalação. <br>
     5. Quando a instalação for bem-sucedida, clique em Fechar para concluir o processo de instalação. <br>
     6. Se sua conta de administrador for diferente de sua conta de usuário, você deverá adicionar o usuário ao grupo docker-users . Execute o Gerenciamento do computador como administrador e navegue até Usuários e grupos locais > Grupos > docker-users . Clique com o botão direito do mouse para adicionar o usuário ao grupo. Saia e entre novamente para que as alterações entrem em vigor. <br>
+
 - Modo CLI de instalação <br>
     1. Baixe o instalador do Docker Desktop, disponível em: https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe <br>
     2. Abra o terminal do Windows <br>
     3. start /w "" "Docker Desktop Installer.exe" install <br>
+
 ## Manipulanção de containers
 
 ## Conteinerizar um aplicativo
