@@ -47,6 +47,7 @@ Meu nome é Iago Magalhães e estou criando este repositório para compartilhar,
 <p>
     Nesse tópico, iremos instalar o Docker Desktop para Windows. Segundo a documentação oficial, temos 2 opções de instalação, sendo elas, a instalação interativa pelo instalador .exe e também pelo CLI. Primeiro veremos o passo a passo de instalação pelo modo interativo e depois através da linha de comando.
 </p>
+
 - Modo interativo de instalação <br>
     1. Baixe o instalador do Docker Desktop, disponível em: https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe <br>
     2. Clique duas vezes em Docker Desktop Installer.exe para executar o instalador. <br>
