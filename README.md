@@ -218,6 +218,7 @@ Para enviar uma imagem, primeiro você precisa criar um repositório no Docker H
     ii. Selecione o botão Criar repositório. <br>
     iii. Para o nome do repositório, use getting-started. Certifique-se de que a visibilidade é Public. <br>
     iv. Selecione o botão Criar. <br>
+    
 ![image](https://github.com/IagoMagalhaes23/Estudos-Docker/assets/65053026/479b029e-9f0b-40f8-8f34-a0369c4dcb04) <br>
 
 2. Enviar a imagem <br>
@@ -250,7 +251,9 @@ i. Abra seu navegador para jogar com o Docker . <br>
 ii. Selecione Login e, em seguida, selecione janela de encaixe na lista suspensa. <br>
 iii. Conecte-se com sua conta do Docker Hub. <br>
 iv. Depois de fazer login, selecione a opção ADICIONAR NOVA INSTÂNCIA na barra lateral esquerda. Se você não vê-lo, deixe seu navegador um pouco mais largo. Após alguns segundos, uma janela de terminal é aberta em seu navegador. <br>
+
 ![image](https://github.com/IagoMagalhaes23/Estudos-Docker/assets/65053026/62a22eb3-ffa3-4b04-91e8-e162ea149ed4) <br>
+
 v. No terminal, inicie seu aplicativo recém-enviado. <br>
      docker run -dp 3000:3000 YOUR-USER-NAME/getting-started
 Você deve ver a imagem ser puxada para baixo e, eventualmente, inicializada. <br>
