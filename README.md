@@ -205,7 +205,56 @@ Agora que você tem uma imagem, pode executar o aplicativo em um contêiner . Pa
 </p>
 
 ## Compartilhe o aplicativo
+<p>
+Agora que a imagem de uma aplicação foi criada é hora de compartilhar com a comunidade.
+Para compartilhar imagens do Docker, você precisa usar um registro do Docker. O registro padrão é o Docker Hub e é de onde vieram todas as imagens que você usou.
+</p>
 
+1. Criar um repositório
+<p>
+Para enviar uma imagem, primeiro você precisa criar um repositório no Docker Hub.
+</p>
+    i. Inscreva-se ou entre no Docker Hub .
+    ii. Selecione o botão Criar repositório .
+    iii. Para o nome do repositório, use getting-started. Certifique-se de que a visibilidade é Public.
+    iv. Selecione o botão Criar .
+![image](https://github.com/IagoMagalhaes23/Estudos-Docker/assets/65053026/479b029e-9f0b-40f8-8f34-a0369c4dcb04)
+
+2. Enviar a imagem
+    i. Na linha de comando, tente executar o comando push que você vê no Docker Hub. Observe que seu comando estará usando seu namespace, não “docker”.
+    
+        docker push docker/getting-started
+        The push refers to repository [docker.io/docker/getting-started]
+        An image does not exist locally with the tag: docker/getting-started
+    
+<p>
+Por que falhou? O comando push estava procurando por uma imagem chamada docker/getting-started, mas não encontrou nenhuma. Se você executar docker image ls, também não verá nenhum.
+</p>
+<p>
+Para corrigir isso, você precisa “marcar” sua imagem existente que você criou para dar outro nome a ela.]
+</p>
+    ii. Faça login no Docker Hub usando o comando docker login -u YOUR-USER-NAME.
+    iii. Use o docker tagcomando para dar getting-startedum novo nome à imagem. Certifique-se de trocar YOUR-USER-NAMEcom seu Docker ID.
+    
+    docker tag getting-started YOUR-USER-NAME/getting-started
+    
+   iv. Agora tente seu comando push novamente. Se você estiver copiando o valor do Docker Hub, poderá descartar a tagnameparte, pois não adicionou uma tag ao nome da imagem. Se você não especificar uma tag, o Docker usará uma tag chamada latest.
+    
+    docker push YOUR-USER-NAME/getting-started
+    
+3. Execute a imagem em uma nova instância
+<p>
+Agora que sua imagem foi criada e enviada para um registro, tente executar seu aplicativo em uma nova instância que nunca viu essa imagem de contêiner. Para fazer isso, você usará o Play with Docker.
+</p>
+i. Abra seu navegador para jogar com o Docker .
+ii. Selecione Login e, em seguida, selecione janela de encaixe na lista suspensa.
+iii. Conecte-se com sua conta do Docker Hub.
+iv. Depois de fazer login, selecione a opção ADICIONAR NOVA INSTÂNCIA na barra lateral esquerda. Se você não vê-lo, deixe seu navegador um pouco mais largo. Após alguns segundos, uma janela de terminal é aberta em seu navegador.
+![image](https://github.com/IagoMagalhaes23/Estudos-Docker/assets/65053026/62a22eb3-ffa3-4b04-91e8-e162ea149ed4)
+v. No terminal, inicie seu aplicativo recém-enviado.
+     docker run -dp 3000:3000 YOUR-USER-NAME/getting-started
+Você deve ver a imagem ser puxada para baixo e, eventualmente, inicializada.
+vi. Selecione o emblema 3000 quando aparecer e você verá o aplicativo com suas modificações. Se o emblema 3000 não aparecer, você pode selecionar o botão Open Port e digitar 3000.
 ## Usar Docker Compose
 
 ## Configurando banco de dados MySql usando Docker
