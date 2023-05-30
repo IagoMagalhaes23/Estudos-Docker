@@ -140,6 +140,69 @@ Meu nome é Iago Magalhães e estou criando este repositório para compartilhar,
     docker run -it --name 'novo_container' 'nome da imagem'
 
 ## Conteinerizar um aplicativo
+<p>
+    Agora iremos criar um container para nossa aplicação seguindo a documentação do próprio Docker. No site oficial, o exemplo apresentado é utilizado com Node JS. Seguimos o passo a passo abaixo:
+</p>
+
+1. Crie a imagem do contêiner do aplicativo
+<p>
+    Para criar a imagem do contêiner , você precisará usar um arquivo Dockerfile. Um Dockerfile é simplesmente um arquivo baseado em texto sem extensão de arquivo que contém um script de instruções. O Docker usa esse script para criar uma imagem de contêiner.
+</p>
+1. No diretório da aplicação, crie um arquivo chamado Dockerfile. Você pode usar os seguintes comandos abaixo para criar um Dockerfile com base em seu sistema operacional.
+No prompt de comando do Windows, execute os seguintes comandos listados abaixo.
+Altere o diretório para o appdiretório. Substitua \path\to\apppelo caminho para o seu getting-started\appdiretório.
+    
+        cd \path\to\app
+        
+Crie um arquivo vazio chamado Dockerfile.
+    
+        type nul > Dockerfile
+
+2. Usando um editor de texto ou editor de código, adicione o seguinte conteúdo ao Dockerfile:
+        
+        # syntax=docker/dockerfile:1
+        FROM node:18-alpine
+        WORKDIR /app
+        COPY . .
+        RUN yarn install --production
+        CMD ["node", "src/index.js"]
+        EXPOSE 3000
+        
+3. Crie a imagem do contêiner usando os seguintes comandos:
+<p>
+No terminal, altere o diretório para o getting-started/appdiretório. Substitua /path/to/apppelo caminho para o seu getting-started/appdiretório.
+</p>
+
+    cd /path/to/app
+
+<p>
+    Crie a imagem do contêiner.
+</p>
+
+    docker build -t getting-started
+
+<p>
+O docker buildcomando usa o Dockerfile para criar uma nova imagem de contêiner. Você deve ter notado que o Docker baixou muitas “camadas”. Isso ocorre porque você instruiu o construtor que deseja iniciar a partir da node:18-alpineimagem. Mas, como você não tinha isso em sua máquina, o Docker precisou baixar a imagem.
+
+Depois que o Docker baixou a imagem, as instruções do Dockerfile foram copiadas em seu aplicativo e usadas yarnpara instalar as dependências de seu aplicativo. A CMDdiretiva especifica o comando padrão a ser executado ao iniciar um contêiner a partir desta imagem.
+
+Por fim, a -tbandeira marca sua imagem. Pense nisso simplesmente como um nome legível para a imagem final. Como você nomeou a imagem getting-started, pode se referir a essa imagem ao executar um contêiner.
+
+O .no final do docker buildcomando informa ao Docker que ele deve procurar Dockerfileno diretório atual.
+</p>
+
+2. Iniciar um contêiner de aplicativo
+<p>
+Agora que você tem uma imagem, pode executar o aplicativo em um contêiner . Para fazer isso, você usará o docker runcomando.
+</p>
+
+1. Inicie seu contêiner usando o docker runcomando e especifique o nome da imagem que você acabou de criar:
+    
+    docker run -dp 3000:3000 getting-started
+    
+<p>
+    Você usa o -dsinalizador para executar o novo contêiner no modo “separado” (em segundo plano). Você também usa o -psinalizador para criar um mapeamento entre a porta 3000 do host e a porta 3000 do contêiner. Sem o mapeamento de porta, você não conseguiria acessar o aplicativo.
+</p>
 
 ## Compartilhe o aplicativo
 
@@ -152,4 +215,5 @@ Meu nome é Iago Magalhães e estou criando este repositório para compartilhar,
 - https://simplificandoredes.com/docker-instalacao/
 - https://docs.docker.com/desktop/install/windows-install/
 - https://simplificandoredes.com/docker-manipulacao-de-containers/
+- https://docs.docker.com/get-started/02_our_app/
 - https://jessicanathanyf.medium.com/configurando-um-banco-de-dados-no-mysql-usando-docker-5681bf8016dc
