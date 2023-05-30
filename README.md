@@ -62,6 +62,82 @@ Meu nome é Iago Magalhães e estou criando este repositório para compartilhar,
     3. start /w "" "Docker Desktop Installer.exe" install <br>
 
 ## Manipulanção de containers
+### Verificar as imagens Docker
+<p>
+    Inicialmente, vamos verificar as imagens que já temos.
+</p>
+
+    docker images
+
+### Executar um container em background 
+<p>
+    Essa forma de execução de container é interessante quando queremos usar um container sem realizar uma interatividade direta com o container.
+</p>
+
+    docker run –td --name 'nome do container' 'imagem'
+
+### Verificar consumo de recursos de container Docker
+<p>
+    Para verificar como está o consumo de recursos de um ou mais containers Docker.
+</p>
+
+    docker stats
+    
+### Execução em um container Docker
+<p>
+    Para executar um comando que nos permite acessar o container que está sendo executado em background e executar um Shell nesse container. 
+</p>
+
+     docker exec -it 'nome do container' sh
+
+<p>
+    Agora, estamos dentro do shell do container e podemos verificar o conteúdo do container usando o comando ls.
+</p>
+
+    ls
+
+### Como finalizar um container Docker em background?
+<p>
+    Para finalizar um container em background, precisamos sair do terminal usando o comando exit. E em seguida, executar o comando abaixo.
+</p>
+
+    docker stop 'meu_containter'
+
+### Executar um comando em um container Docker
+<p>
+    Podemos executar o comando diretamente no container sem a necessidade de acessar o container.
+    Para isso, podemos usar como exemplo a necessidade de executar o comando netstat dentro de um container sem a necessidade de acessar o terminal desse container.
+</p>
+
+    docker exec -it 'meu container' netstat -rn
+
+### Salvar alterações em um container Docker
+<p>
+    O Docker tem uma função muito importante que permite salvar as alterações, como instalação de programas e configurações, que forma feitas em um container.
+    Dessa forma, podemos gerar uma imagem do container Docker e garantir que nossas instalações e alterações estejam na imagem Docker. 
+</p>
+
+    docker exec -it 'meu container' sh
+
+<p>
+    Para salvar o container em uma imagem. 
+</p>
+
+    docker commit 'meu container' 'nome da imagem'
+
+<p>
+    Podemos verificar que agora temos uma nova imagem. Para isso vamos usar o comando abaixo.
+</p>
+
+    docker images
+
+### Executando um container com a nossa imagem Docker
+<p>
+    Agora vamos executar um novo container que vai usar a imagem que criamos anteriormente.
+    Dessa forma, poderemos verificar se as alterações que foram criadas na imagem estão dentro do novo container.
+</p>
+
+    docker run -it --name 'novo_container' 'nome da imagem'
 
 ## Conteinerizar um aplicativo
 
@@ -75,4 +151,5 @@ Meu nome é Iago Magalhães e estou criando este repositório para compartilhar,
 - https://docs.docker.com/get-started/overview/
 - https://simplificandoredes.com/docker-instalacao/
 - https://docs.docker.com/desktop/install/windows-install/
+- https://simplificandoredes.com/docker-manipulacao-de-containers/
 - https://jessicanathanyf.medium.com/configurando-um-banco-de-dados-no-mysql-usando-docker-5681bf8016dc
