@@ -332,15 +332,15 @@ Para lembrar, esse era o comando que estávamos usando para definir nosso contê
 4. Em seguida, migraremos o diretório de trabalho ( -w /app) e o mapeamento de volume ( -v "$(pwd):/app") usando as definições working_dire . volumesVolumes também tem uma sintaxe curta e longa.
 Uma vantagem das definições de volume do Docker Compose é que podemos usar caminhos relativos do diretório atual.
 
-    services:
-      app:
-        image: node:18-alpine
-        command: sh -c "yarn install && yarn run dev"
-        ports:
-          - 3000:3000
-        working_dir: /app
-        volumes:
-          - ./:/app
+        services:
+          app:
+            image: node:18-alpine
+            command: sh -c "yarn install && yarn run dev"
+            ports:
+              - 3000:3000
+            working_dir: /app
+            volumes:
+              - ./:/app
 
 5. Por fim, precisamos migrar as definições de variáveis de ambiente usando a 'environment' chave.
 
