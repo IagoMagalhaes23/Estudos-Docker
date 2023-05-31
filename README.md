@@ -518,7 +518,7 @@ Depois de demolido, você pode mudar para outro projeto, corra docker compose up
         Vamos baixar a última imagem do MySQL no Docker hub
     </p>
         
-    docker pull mysql/mysql-server
+        docker pull mysql/mysql-server
     
 - 2º Passo: Executando container
     <p>
@@ -529,7 +529,7 @@ Depois de demolido, você pode mudar para outro projeto, corra docker compose up
     Obs: crie a penas o diretório C:/mysql por padrão, o MySQL precisa ter as pastas /var/lib/mysql que é neste diretório que o MySQL irá salvar os dados do banco.
     </p>
     
-    docker ryn -e MYSQL_ALLOW_EMPTY_PASSWORD=sim -v C:/mysql/var/lib/mysql mysql
+        docker ryn -e MYSQL_ALLOW_EMPTY_PASSWORD=sim -v C:/mysql/var/lib/mysql mysql
     
 - 3º Passo: Obtendo o IP do container
     <p>
