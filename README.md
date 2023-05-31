@@ -261,6 +261,216 @@ vi. Selecione o emblema 3000 quando aparecer e você verá o aplicativo com suas
 
 ## Usar Docker Compose
 
+### Usar Docker Compose
+O Docker Compose é uma ferramenta desenvolvida para ajudar a definir e compartilhar aplicativos com vários contêineres. Com o Compose, podemos criar um arquivo YAML para definir os serviços e, com um único comando, podemos girar ou desmontar tudo.
+
+A grande vantagem de usar o Compose é que você pode definir sua pilha de aplicativos em um arquivo, mantê-lo na raiz do repositório do seu projeto (agora com controle de versão) e permitir facilmente que outra pessoa contribua com seu projeto. Alguém só precisaria clonar seu repositório e iniciar o aplicativo de composição. Na verdade, você pode ver alguns projetos no GitHub/GitLab fazendo exatamente isso agora.
+
+### Instale o Docker Compose
+Se você instalou o Docker Desktop para Windows, Mac ou Linux, você já tem o Docker Compose! As instâncias do Play-with-Docker também têm o Docker Compose instalado.
+
+As instalações autônomas do Docker Engine exigem que o Docker Compose seja instalado como um pacote separado, consulte Instalar o plug-in do Compose .
+
+Após a instalação, você poderá executar o seguinte e ver as informações da versão.
+    docker compose version
+
+### Crie o arquivo Compose
+Na raiz da /getting-started/apppasta, crie um arquivo chamado docker-compose.yml.
+No arquivo de composição, começaremos definindo a lista de serviços (ou contêineres) que desejamos executar como parte de nosso aplicativo.
+    services:
+E agora, começaremos a migrar um serviço por vez para o arquivo de composição.
+
+### Defina o serviço do app
+Para lembrar, esse era o comando que estávamos usando para definir nosso contêiner de aplicativo.
+
+      docker run -dp 3000:3000 \
+      -w /app -v "$(pwd):/app" \
+      --network todo-app \
+      -e MYSQL_HOST=mysql \
+      -e MYSQL_USER=root \
+      -e MYSQL_PASSWORD=secret \
+      -e MYSQL_DB=todos \
+      node:18-alpine \
+      sh -c "yarn install && yarn run dev"
+
+Primeiro, vamos definir a entrada de serviço e a imagem do container. Podemos escolher qualquer nome para o serviço. O nome se tornará automaticamente um alias de rede, o que será útil ao definir nosso serviço MySQL.
+    services:
+      app:
+        image: node:18-alpine
+
+Normalmente, você verá o commandfechamento da imagedefinição, embora não haja nenhum requisito no pedido. Então, vamos em frente e mover isso para o nosso arquivo.
+    services:
+      app:
+        image: node:18-alpine
+        command: sh -c "yarn install && yarn run dev"
+
+Vamos migrar a -p 3000:3000parte do comando definindo o portspara o serviço. Usaremos a sintaxe curta aqui, mas também há uma sintaxe longa mais detalhada disponível.
+
+    services:
+      app:
+        image: node:18-alpine
+        command: sh -c "yarn install && yarn run dev"
+        ports:
+          - 3000:3000
+
+Em seguida, migraremos o diretório de trabalho ( -w /app) e o mapeamento de volume ( -v "$(pwd):/app") usando as definições working_dire . volumesVolumes também tem uma sintaxe curta e longa .
+
+Uma vantagem das definições de volume do Docker Compose é que podemos usar caminhos relativos do diretório atual.
+
+    services:
+      app:
+        image: node:18-alpine
+        command: sh -c "yarn install && yarn run dev"
+        ports:
+          - 3000:3000
+        working_dir: /app
+        volumes:
+          - ./:/app
+
+Por fim, precisamos migrar as definições de variáveis ​​de ambiente usando a environmentchave.
+
+    services:
+      app:
+        image: node:18-alpine
+        command: sh -c "yarn install && yarn run dev"
+        ports:
+          - 3000:3000
+        working_dir: /app
+        volumes:
+          - ./:/app
+        environment:
+          MYSQL_HOST: mysql
+          MYSQL_USER: root
+          MYSQL_PASSWORD: secret
+          MYSQL_DB: todos
+
+#### Defina o serviço MySQL
+Agora, é hora de definir o serviço MySQL. O comando que usamos para esse container foi o seguinte:
+
+      docker run -d \
+      --network todo-app --network-alias mysql \
+      -v todo-mysql-data:/var/lib/mysql \
+      -e MYSQL_ROOT_PASSWORD=secret \
+      -e MYSQL_DATABASE=todos \
+      mysql:8.0
+
+Vamos primeiro definir o novo serviço e nomeá-lo mysqlpara que ele obtenha automaticamente o alias de rede. Iremos em frente e especificaremos a imagem a ser usada também.
+
+    services:
+      app:
+        # The app service definition
+      mysql:
+        image: mysql:8.0
+
+Em seguida, definiremos o mapeamento de volume. Quando executamos o contêiner com docker run, o volume nomeado foi criado automaticamente. No entanto, isso não acontece ao executar com o Compose. Precisamos definir o volume na volumes:seção de nível superior e especificar o ponto de montagem na configuração do serviço. Simplesmente fornecendo apenas o nome do volume, as opções padrão são usadas. Há muito mais opções disponíveis embora.
+
+    services:
+      app:
+        # The app service definition
+      mysql:
+        image: mysql:8.0
+        volumes:
+          - todo-mysql-data:/var/lib/mysql
+
+    volumes:
+      todo-mysql-data:
+
+Por fim, precisamos apenas especificar as variáveis ​​de ambiente.
+
+    services:
+      app:
+        # The app service definition
+      mysql:
+        image: mysql:8.0
+        volumes:
+          - todo-mysql-data:/var/lib/mysql
+        environment:
+          MYSQL_ROOT_PASSWORD: secret
+          MYSQL_DATABASE: todos
+
+    volumes:
+      todo-mysql-data:
+
+Neste ponto, nosso complete docker-compose.ymldeve ficar assim:
+
+    services:
+      app:
+        image: node:18-alpine
+        command: sh -c "yarn install && yarn run dev"
+        ports:
+          - 3000:3000
+        working_dir: /app
+        volumes:
+          - ./:/app
+        environment:
+          MYSQL_HOST: mysql
+          MYSQL_USER: root
+          MYSQL_PASSWORD: secret
+          MYSQL_DB: todos
+
+      mysql:
+        image: mysql:8.0
+        volumes:
+          - todo-mysql-data:/var/lib/mysql
+        environment:
+          MYSQL_ROOT_PASSWORD: secret
+          MYSQL_DATABASE: todos
+
+    volumes:
+      todo-mysql-data:
+
+### Execute a pilha de aplicativos
+Agora que temos nosso docker-compose.ymlarquivo, podemos iniciá-lo!
+
+Certifique-se de que nenhuma outra cópia do app/db esteja sendo executada primeiro ( docker pse docker rm -f <ids>).
+
+Inicie a pilha de aplicativos usando o docker compose upcomando. Adicionaremos o -dsinalizador para executar tudo em segundo plano.
+    
+    docker compose up -d
+
+Quando executamos isso, devemos ver uma saída como esta:
+    
+     Creating network "app_default" with the default driver
+     Creating volume "app_todo-mysql-data" with default driver
+     Creating app_app_1   ... done
+     Creating app_mysql_1 ... done
+
+Você notará que o volume foi criado, assim como uma rede! Por padrão, o Docker Compose cria automaticamente uma rede especificamente para a pilha de aplicativos (é por isso que não definimos uma no arquivo de composição).
+
+Vamos ver os logs usando o docker compose logs -fcomando. Você verá os logs de cada um dos serviços intercalados em um único fluxo. Isso é incrivelmente útil quando você deseja observar problemas relacionados ao tempo. O -fsinalizador “segue” o log, portanto, fornecerá uma saída ao vivo à medida que for gerado.
+
+Se você já executou o comando, verá uma saída semelhante a esta:
+     mysql_1  | 2019-10-03T03:07:16.083639Z 0 [Note] mysqld: ready for connections.
+     mysql_1  | Version: '8.0.31'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server (GPL)
+     app_1    | Connected to mysql db at host mysql
+     app_1    | Listening on port 3000
+
+O nome do serviço é exibido no início da linha (geralmente colorido) para ajudar a distinguir as mensagens. Se você deseja visualizar os logs de um serviço específico, pode adicionar o nome do serviço ao final do comando logs (por exemplo, docker compose logs -f app).
+
+Neste ponto, você deve conseguir abrir seu aplicativo e vê-lo em execução. E ei! Estamos reduzidos a um único comando!
+
+### Veja a pilha de aplicativos no Docker Dashboard
+Se olharmos para o Docker Dashboard, veremos que existe um grupo chamado app . Este é o “nome do projeto” do Docker Compose e usado para agrupar os contêineres. Por padrão, o nome do projeto é simplesmente o nome do diretório no qual ele docker-compose.ymlestá localizado.
+    
+    ![image](https://github.com/IagoMagalhaes23/Estudos-Docker/assets/65053026/c0d9f9a2-3283-435f-b78d-ffd4f8460e61)
+
+Se você clicar na seta de divulgação ao lado de app , verá os dois contêineres que definimos no arquivo de composição. Os nomes também são um pouco mais descritivos, pois seguem o padrão de <service-name>-<replica-number>. Portanto, é muito fácil ver rapidamente qual contêiner é nosso aplicativo e qual é o banco de dados mysql.
+    
+    ![image](https://github.com/IagoMagalhaes23/Estudos-Docker/assets/65053026/233215ca-818b-46dc-b299-72984bddf518)
+
+### Derrube tudo
+Quando estiver pronto para destruir tudo, basta executar docker compose downou ir para a lixeira no Docker Dashboard para o aplicativo inteiro. Os contêineres irão parar e a rede será removida.
+
+Aviso
+
+Removendo Volumes
+
+Por padrão, os volumes nomeados em seu arquivo de composição NÃO são removidos ao executar docker compose down. Se você deseja remover os volumes, precisará adicionar o --volumessinalizador.
+
+O Docker Dashboard não remove volumes quando você exclui a pilha de aplicativos.
+
+Depois de demolido, você pode mudar para outro projeto, corra docker compose upe esteja pronto para contribuir com esse projeto! Realmente não fica muito mais simples do que isso!
+
 ## Configurando banco de dados MySql usando Docker
 
 ## Referências
@@ -270,4 +480,5 @@ vi. Selecione o emblema 3000 quando aparecer e você verá o aplicativo com suas
 - https://simplificandoredes.com/docker-manipulacao-de-containers/
 - https://docs.docker.com/get-started/02_our_app/
 - https://docs.docker.com/get-started/04_sharing_app/
+- https://docs.docker.com/get-started/08_using_compose/
 - https://jessicanathanyf.medium.com/configurando-um-banco-de-dados-no-mysql-usando-docker-5681bf8016dc
