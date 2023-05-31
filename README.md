@@ -536,7 +536,7 @@ Depois de demolido, você pode mudar para outro projeto, corra docker compose up
     Para descobrir o IP do container digite docker container ls para verificar os containers que estão sendo executados e copie o ID do container mysql. Feito isso, digite o comando:
     </p>
 
-            docker container inpect ID_CONTAINER.
+        docker container inpect ID_CONTAINER.
 
     <p>
     Esse comando irá trazer todas as informações do container, e no final da tela você irá localizar o IPAddress do container.
