@@ -509,7 +509,46 @@ Depois de demolido, você pode mudar para outro projeto, corra docker compose up
 </p>
 
 ## Configurando banco de dados MySql usando Docker
+<p>
+    Agora iremos congigurar um banco de dados MySql utilizando o docker.
+</p>
 
+- 1º Passo: Baixando a imagem MySQL
+    <p>
+        Vamos baixar a última imagem do MySQL no Docker hub
+    </p>
+        
+    docker pull mysql/mysql-server
+    
+- 2º Passo: Executando container
+    <p>
+    Vamos executar um container a partir da imagem que acabamos de baixar. De início, não iremos configurar a configuração de ambiente, e vamos executar o MySQL com usuário padrão e sem senha. Antes de executar o comando, crie um diretório chamado de mysql . Digite o comando abaixo no seu terminal.
+    </p>
+
+    <p>
+    Obs: crie a penas o diretório C:/mysql por padrão, o MySQL precisa ter as pastas /var/lib/mysql que é neste diretório que o MySQL irá salvar os dados do banco.
+    </p>
+    
+    docker ryn -e MYSQL_ALLOW_EMPTY_PASSWORD=sim -v C:/mysql/var/lib/mysql mysql
+    
+- 3º Passo: Obtendo o IP do container
+    <p>
+    Para descobrir o IP do container digite docker container ls para verificar os containers que estão sendo executados e copie o ID do container mysql. Feito isso, digite o comando docker container inpect ID_CONTAINER.
+    </p>
+    <p>
+    Esse comando irá trazer todas as informações do container, e no final da tela você irá localizar o IPAddress do container.
+    </p>
+- 4º Passo: Acessando o banco através do container
+    <p>
+    Para acessar o banco MySQL através do container, precisamos entrar em dentro do container, e para isso, precisaremos digitar o comando abaixo:
+    </p>
+    
+        docker exec -it ID_CONTAINER
+    
+    <p>
+    Agora  é possível criar outros bancos, utilizando o comando 'create database seu_banco;'
+    Utilize o comando 'use seu-banco;' para que acesse seu banco e consiga executar scripts para criar as tabelas e inserir os dados.
+    </p>
 ## Referências
 - https://docs.docker.com/get-started/overview/
 - https://simplificandoredes.com/docker-instalacao/
