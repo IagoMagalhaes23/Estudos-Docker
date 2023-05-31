@@ -452,7 +452,7 @@ Agora que temos nosso docker-compose.ymlarquivo, podemos iniciá-lo!
 <p>
 Quando executamos isso, devemos ver uma saída como esta:
 </p>
-    
+
          Creating network "app_default" with the default driver
          Creating volume "app_todo-mysql-data" with default driver
          Creating app_app_1   ... done
@@ -462,14 +462,16 @@ Quando executamos isso, devemos ver uma saída como esta:
 Você notará que o volume foi criado, assim como uma rede! Por padrão, o Docker Compose cria automaticamente uma rede especificamente para a pilha de aplicativos (é por isso que não definimos uma no arquivo de composição).
 </p>
 
-3. Vamos ver os logs usando o docker compose logs -fcomando. Você verá os logs de cada um dos serviços intercalados em um único fluxo. Isso é incrivelmente útil quando você deseja observar problemas relacionados ao tempo. O -fsinalizador “segue” o log, portanto, fornecerá uma saída ao vivo à medida que for gerado.
+3. Vamos ver os logs usando o docker compose logs -fcomando. Você verá os logs de cada um dos serviços intercalados em um único fluxo. Isso é incrivelmente útil quando você deseja observar problemas relacionados ao tempo. O -f sinalizador “segue” o log, portanto, fornecerá uma saída ao vivo à medida que for gerado.
 <p>
 Se você já executou o comando, verá uma saída semelhante a esta:
 </p>
+
          mysql_1  | 2019-10-03T03:07:16.083639Z 0 [Note] mysqld: ready for connections.
          mysql_1  | Version: '8.0.31'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server (GPL)
          app_1    | Connected to mysql db at host mysql
          app_1    | Listening on port 3000
+
 <p>
 O nome do serviço é exibido no início da linha (geralmente colorido) para ajudar a distinguir as mensagens. Se você deseja visualizar os logs de um serviço específico, pode adicionar o nome do serviço ao final do comando logs (por exemplo, docker compose logs -f app).
 </p>
@@ -481,13 +483,13 @@ O nome do serviço é exibido no início da linha (geralmente colorido) para aju
 Se olharmos para o Docker Dashboard, veremos que existe um grupo chamado app . Este é o “nome do projeto” do Docker Compose e usado para agrupar os contêineres. Por padrão, o nome do projeto é simplesmente o nome do diretório no qual ele docker-compose.ymlestá localizado.
 </p>
     
-    ![image](https://github.com/IagoMagalhaes23/Estudos-Docker/assets/65053026/c0d9f9a2-3283-435f-b78d-ffd4f8460e61)
+![image](https://github.com/IagoMagalhaes23/Estudos-Docker/assets/65053026/c0d9f9a2-3283-435f-b78d-ffd4f8460e61)
 
 <p>
 Se você clicar na seta de divulgação ao lado de app , verá os dois contêineres que definimos no arquivo de composição. Os nomes também são um pouco mais descritivos, pois seguem o padrão de <service-name>-<replica-number>. Portanto, é muito fácil ver rapidamente qual contêiner é nosso aplicativo e qual é o banco de dados mysql.
 </p>
     
-    ![image](https://github.com/IagoMagalhaes23/Estudos-Docker/assets/65053026/233215ca-818b-46dc-b299-72984bddf518)
+![image](https://github.com/IagoMagalhaes23/Estudos-Docker/assets/65053026/233215ca-818b-46dc-b299-72984bddf518)
 
 ### Derrube tudo
 <p>
